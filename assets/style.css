@@ -15,6 +15,7 @@ header {
     position: fixed;
     top: 0;
     width: 100vw;
+    z-index: 100;
 }
 
 h1,
@@ -73,8 +74,9 @@ a:visited {
     mix-blend-mode: difference;
 }
 
-iframe {
+canvas {
     border: none;
     width: 100vw;
     height: 100vh;
+    z-index: 1;
 }
