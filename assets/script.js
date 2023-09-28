@@ -13,7 +13,7 @@ let YOfThumb;
 
 function setup() {
     bgColor = color(255, 255, 255);
-    bgColor.setAlpha(55);
+    bgColor.setAlpha(60);
     createCanvas(canvasWidth, canvasHeight)
 
     video = createCapture(VIDEO);
