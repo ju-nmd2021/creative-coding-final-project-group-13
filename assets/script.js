@@ -10,6 +10,12 @@ let XOfThumb;
 let YOfIndex;
 let YOfThumb;
 
+let oscillator;
+
+window.addEventListener("load", () => {
+    oscillator = new Tone.Oscillator(440, "sawtooth").toDestination();
+})
+
 
 function setup() {
     bgColor = color(255, 255, 255);
@@ -21,7 +27,7 @@ function setup() {
     video.hide();
 
     options = {
-        detectionConfidence: 0.95,
+        detectionConfidence: 0.05,
         flipHorizontal: true
 
     }
@@ -45,34 +51,12 @@ function draw() {
         const x2 = hand.boundingBox.bottomRight[0];
         const y2 = hand.boundingBox.bottomRight[1];
 
+        gesture_Pinch()
+
         XOfIndex = hand.annotations.indexFinger[3][0];
         YOfIndex = hand.annotations.indexFinger[3][1];
         XOfThumb = hand.annotations.thumb[3][0];
         YOfThumb = hand.annotations.thumb[3][1];
-
-
-        // push();
-        // noFill();
-        // stroke(0, 255, 0);
-        // rectMode(CORNERS);
-        // rect(x1, y1, x2, y2);
-        // pop();
-
-        // const landmarks = hand.landmarks;
-        // for (let landmark of landmarks) {
-        //     push();
-        //     noStroke();
-        //     fill(0, 255, 0);
-        //     ellipse(landmark[0], landmark[1], 10);
-        //     pop();
-        // }
-
-        if (XOfIndex - XOfThumb < 50 && YOfThumb - YOfIndex < 50) {
-            console.log("It Works");
-            fill(0, 0, 255);
-            noStroke();
-            ellipse(XOfIndex, YOfIndex, 10, 10);
-        }
 
         window.addEventListener("keyup", (e) => {
             if (e.key == 'h') {
@@ -87,6 +71,22 @@ function draw() {
     })
 };
 
+function gesture_Pinch() {
+    if (XOfIndex - XOfThumb < 50 && YOfThumb - YOfIndex < 50) {
+        fill(0, 0, 255);
+        noStroke();
+        ellipse(XOfIndex, YOfIndex, 10, 10);
+
+        oscillator.frequency.value = YOfIndex;
+        oscillator.volume.value = XOfIndex * 0.5;
+    }
+}
+
 function modelLoaded() {
     console.log("Model Loaded!");
 }
+
+window.addEventListener("click", () => {
+    Tone.start();
+    oscillator.start();
+});
