@@ -1,0 +1,80 @@
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&display=swap");
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: "Open Sans", sans-serif;
+    width: 100vw;
+    height: 100vh;
+}
+
+header {
+    position: fixed;
+    top: 0;
+    width: 100vw;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    margin: auto;
+    font-weight: 600;
+    mix-blend-mode: difference;
+}
+
+#name {
+    margin-bottom: 0.8rem;
+}
+p {
+    margin: 0.4rem 0 1rem 0;
+    mix-blend-mode: difference;
+}
+
+#p5container {
+    grid-row: 1 / 4;
+    grid-column: 1 / 2;
+    background-color: white;
+}
+
+footer {
+    font-size: 0.8rem;
+    z-index: 2;
+}
+
+main {
+    display: flex;
+    flex-direction: row;
+    grid-area: information;
+    background-color: rgba(0, 0, 0, 0);
+    z-index: 2;
+    mix-blend-mode: difference;
+}
+
+main section {
+    flex-grow: 10;
+}
+
+.button {
+    border: none;
+    background-color: transparent;
+    padding: 2em;
+    cursor: pointer;
+}
+
+a,
+a:visited {
+    color: white;
+    mix-blend-mode: difference;
+}
+
+iframe {
+    border: none;
+    width: 100vw;
+    height: 100vh;
+}
