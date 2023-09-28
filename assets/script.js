@@ -1,5 +1,5 @@
-let canvasWidth = window.innerWidth;
-let canvasHeight = window.innerHeight;
+let canvasWidth = innerWidth;
+let canvasHeight = innerHeight;
 
 let video;
 let handpose;
@@ -14,10 +14,10 @@ let YOfThumb;
 function setup() {
     bgColor = color(255, 255, 255);
     bgColor.setAlpha(60);
-    createCanvas(canvasWidth, canvasHeight)
+    createCanvas(innerWidth, innerHeight);
 
     video = createCapture(VIDEO);
-    video.size(canvasWidth, canvasHeight);
+    video.size(width, height);
     video.hide();
 
     options = {
@@ -35,8 +35,9 @@ function setup() {
 };
 
 function draw() {
-    // image(video, 0, 0, canvasWidth, canvasHeight);
+    // image(video, 0, 0);
     background(bgColor);
+
 
     for (let hand of predictions) {
         const x1 = hand.boundingBox.topLeft[0];
@@ -57,14 +58,14 @@ function draw() {
         // rect(x1, y1, x2, y2);
         // pop();
 
-        const landmarks = hand.landmarks;
-        for (let landmark of landmarks) {
-            // push();
-            // noStroke();
-            // fill(0, 255, 0);
-            // ellipse(landmark[0], landmark[1], 10);
-            // pop();
-        }
+        // const landmarks = hand.landmarks;
+        // for (let landmark of landmarks) {
+        //     push();
+        //     noStroke();
+        //     fill(0, 255, 0);
+        //     ellipse(landmark[0], landmark[1], 10);
+        //     pop();
+        // }
 
         if (XOfIndex - XOfThumb < 50 && YOfThumb - YOfIndex < 50) {
             console.log("It Works");
