@@ -20,11 +20,13 @@ function setup() {
     video.size(canvasWidth, canvasHeight);
     video.hide();
 
-    // options = {
-    //     flipHorizontal: true,
-    // }
+    options = {
+        detectionConfidence: 0.95,
+        flipHorizontal: true
 
-    handpose = ml5.handpose(video, modelLoaded);
+    }
+
+    handpose = ml5.handpose(video, options, modelLoaded);
 
     handpose.on("hand", (results) => {
         predictions = results;
@@ -64,9 +66,10 @@ function draw() {
             // pop();
         }
 
-        if (XOfIndex - XOfThumb < 30 && YOfThumb - YOfIndex < 30) {
+        if (XOfIndex - XOfThumb < 50 && YOfThumb - YOfIndex < 50) {
             console.log("It Works");
             fill(0, 0, 255);
+            noStroke();
             ellipse(XOfIndex, YOfIndex, 10, 10);
         }
 
