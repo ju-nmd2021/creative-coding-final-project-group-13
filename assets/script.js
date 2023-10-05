@@ -16,9 +16,39 @@ window.addEventListener("load", () => {
     oscillator = new Tone.Oscillator(440, "sawtooth").toDestination();
 })
 
+class Particle {
+    constructor(x, y) {
+        this.position = createVector(x, y);
+        const a = Math.PI * 2;
+        const v = 0.2 + Math.random();
+        this.velocity = createVector(Math.cos(a) * v, Math.sin(a) * v);
+        this.lifespan = 100 + Math.random() * 100;
+    }
+
+    update() {
+        this.lifespan--;
+
+        this.velocity.mult(0.99);
+        this.position.add(this.velocity);
+    }
+
+    draw() {
+        push();
+        translate(this.position.x, this.position.y);
+        noStroke();
+        fill(0, 0, 255);
+        ellipse(0, 0, 6);
+        pop();
+    }
+
+    isDead() {
+        return this.lifespan <= 0;
+    }
+}
+
 
 function setup() {
-    bgColor = color(255, 255, 255);
+    bgColor = color(0, 0, 90);
     bgColor.setAlpha(60);
     createCanvas(innerWidth, innerHeight);
 
@@ -58,6 +88,15 @@ function draw() {
         XOfThumb = hand.annotations.thumb[3][0];
         YOfThumb = hand.annotations.thumb[3][1];
 
+        // for (let particle of particles) {
+        //     particle.update();
+        //     particle.draw();
+
+        //     if (particle.isDead()) {
+        //         particles.splice(particles.indexOf(particle), 1);
+        //     }
+        // }
+
         window.addEventListener("keyup", (e) => {
             if (e.key == 'h') {
                 console.log("X Dist = " + (XOfIndex - XOfThumb) + ", Y Dist = " + (YOfThumb - YOfIndex));
@@ -71,11 +110,24 @@ function draw() {
     })
 };
 
+function generateParticles(x, y) {
+    // for (let i = 0; i < 400; i++) {
+    const px = x
+    const py = y
+    const particle = new Particle(px, py);
+    particles.push(particle);
+    // }
+}
+
+let particles = [];
+
 function gesture_Pinch() {
     if (XOfIndex - XOfThumb < 50 && YOfThumb - YOfIndex < 50) {
         fill(0, 0, 255);
         noStroke();
         ellipse(XOfIndex, YOfIndex, 10, 10);
+
+        // generateParticles(XOfIndex, YOfIndex);
 
         oscillator.frequency.value = YOfIndex;
         oscillator.volume.value = XOfIndex * 0.5;
