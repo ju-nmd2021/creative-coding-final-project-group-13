@@ -19,25 +19,27 @@ window.addEventListener("load", () => {
 class Particle {
     constructor(x, y) {
         this.position = createVector(x, y);
-        const a = Math.PI * 2;
+        const a = Math.random() * Math.PI * 2;
         const v = 0.2 + Math.random();
         this.velocity = createVector(Math.cos(a) * v, Math.sin(a) * v);
-        this.lifespan = 100 + Math.random() * 100;
+        this.lifespan = 30;
     }
 
     update() {
         this.lifespan--;
 
-        this.velocity.mult(0.99);
+        this.velocity.mult(0.9);
         this.position.add(this.velocity);
     }
 
     draw() {
         push();
         translate(this.position.x, this.position.y);
-        noStroke();
-        fill(0, 0, 255);
-        ellipse(0, 0, 6);
+        // stroke(0, 0, this.lifespan * 6);
+        stroke(0, 0, 255);
+        noFill();
+        // fill(0, 0, 255);
+        ellipse(0, 0, this.lifespan);
         pop();
     }
 
@@ -92,16 +94,16 @@ function draw() {
             particle.update();
             particle.draw();
 
-            if (particle.isDead()) {
-                particles.splice(particles.indexOf(particle), 1);
-            }
-        }
+        //     if (particle.isDead()) {
+        //         particles.splice(particles.indexOf(particle), 1);
+        //     }
+        // }
 
         window.addEventListener("keyup", (e) => {
             if (e.key == 'h') {
                 console.log("X Dist = " + (XOfIndex - XOfThumb) + ", Y Dist = " + (YOfThumb - YOfIndex));
             }
-        })
+        }
     }
 
     window.addEventListener("resize", () => {
@@ -124,8 +126,8 @@ let particles = [];
 function gesture_Pinch() {
     if (XOfIndex - XOfThumb < 50 && YOfThumb - YOfIndex < 50) {
         fill(0, 0, 255);
-        noStroke();
-        ellipse(XOfIndex, YOfIndex, 10, 10);
+        // noStroke();
+        // ellipse(XOfIndex, YOfIndex, 10, 10);
 
         generateParticles(XOfIndex, YOfIndex);
 

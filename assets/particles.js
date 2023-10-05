@@ -21,7 +21,7 @@ let age;
 class Particle {
     constructor(x, y) {
         this.position = createVector(x, y);
-        const a = Math.PI * 2;
+        const a = Math.random() * Math.PI * 2;
         const v = 0.2 + Math.random();
         this.velocity = createVector(Math.cos(a) * v, Math.sin(a) * v);
         this.lifespan = 100 + Math.random() * 100;
@@ -29,7 +29,6 @@ class Particle {
 
     update() {
         this.lifespan--;
-
         this.velocity.mult(0.99);
         this.position.add(this.velocity);
     }
