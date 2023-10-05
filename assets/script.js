@@ -88,14 +88,14 @@ function draw() {
         XOfThumb = hand.annotations.thumb[3][0];
         YOfThumb = hand.annotations.thumb[3][1];
 
-        // for (let particle of particles) {
-        //     particle.update();
-        //     particle.draw();
+        for (let particle of particles) {
+            particle.update();
+            particle.draw();
 
-        //     if (particle.isDead()) {
-        //         particles.splice(particles.indexOf(particle), 1);
-        //     }
-        // }
+            if (particle.isDead()) {
+                particles.splice(particles.indexOf(particle), 1);
+            }
+        }
 
         window.addEventListener("keyup", (e) => {
             if (e.key == 'h') {
@@ -111,12 +111,12 @@ function draw() {
 };
 
 function generateParticles(x, y) {
-    // for (let i = 0; i < 400; i++) {
+    for (let i = 0; i < 400; i++) {
     const px = x
     const py = y
     const particle = new Particle(px, py);
     particles.push(particle);
-    // }
+    }
 }
 
 let particles = [];
@@ -127,7 +127,7 @@ function gesture_Pinch() {
         noStroke();
         ellipse(XOfIndex, YOfIndex, 10, 10);
 
-        // generateParticles(XOfIndex, YOfIndex);
+        generateParticles(XOfIndex, YOfIndex);
 
         oscillator.frequency.value = YOfIndex;
         oscillator.volume.value = XOfIndex * 0.5;
