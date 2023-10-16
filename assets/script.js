@@ -3,6 +3,8 @@
 let canvasWidth = innerWidth;
 let canvasHeight = innerHeight;
 
+let notes = ["A", "B", "C", "D", "E", "F", "G", "A"];
+
 // HANDPOSE VARIABLES
 let video;
 let handpose;
@@ -16,6 +18,13 @@ let YOfThumb;
 // SOUND VARIABLES
 let oscillator;
 
+let pinchSynth;
+
+let bounceSynth;
+let bounceReverb;
+let bounceChorus;
+
+
 // BALL VARIABLES
 let ballX;
 let ballY;
@@ -23,7 +32,21 @@ let hDirection;
 let vDirection;
 
 window.addEventListener("load", () => {
-    oscillator = new Tone.Oscillator(440, "sawtooth").toDestination();
+    pinchChorus = new Tone.Chorus(4, 2, 0.5).toDestination().start();
+    pinchSynth = new Tone.PolySynth().connect(pinchChorus);
+
+    bounceChorus = new Tone.Chorus(6, 2, 0.5).toDestination().start();
+    bounceReverb = new Tone.Reverb(8.0).connect(bounceChorus);
+    bounceSynth = new Tone.PolySynth().connect(bounceReverb);
+    bounceSynth.set({
+        oscillator: {
+            type: 'triangle'
+        },
+        attack: 0.4,
+        decay: 0.6,
+        sustain: 0.5,
+        release: 0.8
+    })
 })
 
 class Particle {
@@ -202,11 +225,13 @@ function draw() {
         if (ballY + 5 == vectorArr[i].y) {
             if (ballX < vectorArr[i].x && ballX > vectorArr[i + 1].x) {
                 vDirection = 'up';
+                bounceSynth.triggerAttackRelease([notes[Math.round(random(0, 6))] + "4", notes[Math.round(random(0, 6))] + "3"], "4n");
             }
         }
         else if (ballY - 5 == vectorArr[i].y) {
             if (ballX < vectorArr[i].x && ballX > vectorArr[i - 1].x) {
                 vDirection = 'down';
+                bounceSynth.triggerAttackRelease([notes[Math.round(random(0, 6))] + "4", notes[Math.round(random(0, 6))] + "3"], "4n");
             }
         }
     }
@@ -216,15 +241,18 @@ function draw() {
             if (vectorArr[i + 1] != undefined) {
                 if (ballY < vectorArr[i].y && ballY > vectorArr[i + 1].y) {
                     hDirection = 'right';
+                    bounceSynth.triggerAttackRelease([notes[Math.round(random(0, 6))] + "4", notes[Math.round(random(0, 6))] + "3"], "4n");
                 }
             }
             else {
                 hDirection = 'right'
+                bounceSynth.triggerAttackRelease([notes[Math.round(random(0, 6))] + "4", notes[Math.round(random(0, 6))] + "3"], "4n");
             }
         }
         if (ballX + 5 == vectorArr[i].x) {
             if (ballY < vectorArr[i].y && ballY > vectorArr[i - 1].y) {
                 hDirection = 'left';
+                bounceSynth.triggerAttackRelease([notes[Math.round(random(0, 6))] + "4", notes[Math.round(random(0, 6))] + "3"], "4n");
             }
         }
     }
@@ -257,13 +285,9 @@ let particles = [];
 function gesture_Pinch() {
     if (XOfIndex - XOfThumb < 50 && YOfThumb - YOfIndex < 50) {
         fill(0, 0, 255);
-        // noStroke();
-        // ellipse(XOfIndex, YOfIndex, 10, 10);
-
         generateParticles(XOfIndex, YOfIndex);
 
-        oscillator.frequency.value = YOfIndex;
-        oscillator.volume.value = XOfIndex * 0.5;
+        pinchSynth.triggerAttackRelease(notes[Math.ceil((YOfIndex) / 100)] + "4", "4n");
     }
 }
 
@@ -273,5 +297,5 @@ function modelLoaded() {
 
 window.addEventListener("click", () => {
     Tone.start();
-    oscillator.start();
+    // oscillator.start();
 });
