@@ -1,6 +1,9 @@
+// GLOBAL VARIABLES
+
 let canvasWidth = innerWidth;
 let canvasHeight = innerHeight;
 
+// HANDPOSE VARIABLES
 let video;
 let handpose;
 let predictions = [];
@@ -10,7 +13,14 @@ let XOfThumb;
 let YOfIndex;
 let YOfThumb;
 
+// SOUND VARIABLES
 let oscillator;
+
+// BALL VARIABLES
+let ballX;
+let ballY;
+let hDirection;
+let vDirection;
 
 window.addEventListener("load", () => {
     oscillator = new Tone.Oscillator(440, "sawtooth").toDestination();
@@ -70,12 +80,90 @@ function setup() {
         predictions = results;
     });
 
+    ballX = innerWidth / 2 + 200;
+    ballY = 400;
+
+    vDirection = "down"
+    hDirection = "left"
+
+    vectorArr = [];
+
+    let originPoint = {
+        x: 100,
+        y: 100
+    };
+
+    let firstPoint = {
+        x: innerWidth - 100,
+        y: 100
+    };
+
+    vectorArr.push(originPoint, firstPoint);
+
+    for (let i = 0; i < 20; i++) {
+        //First 10 Points
+        if (i <= 10) {
+            if (i % 2 == 0) {
+                let newPoint = {
+                    x: vectorArr[vectorArr.length - 1].x,
+                    y: round(random(vectorArr[vectorArr.length - 1].y + 50, vectorArr[vectorArr.length - 1].y + 100)),
+                }
+
+                vectorArr.push(newPoint);
+            }
+            else {
+                let newPoint = {
+                    x: round(random(vectorArr[vectorArr.length - 1].x - 200, innerWidth - 100)),
+                    y: vectorArr[vectorArr.length - 1].y,
+                }
+
+                vectorArr.push(newPoint);
+            }
+        }
+
+        else if (i == 11) {
+            let newPoint = {
+                x: innerWidth - vectorArr[vectorArr.length - 1].x,
+                y: vectorArr[vectorArr.length - 1].y
+            }
+
+            vectorArr.push(newPoint);
+        }
+
+        else if (i == 19) {
+            let newPoint = {
+                x: 100,
+                y: vectorArr[vectorArr.length - 1].y
+            }
+
+            vectorArr.push(newPoint)
+        }
+
+        // Last 10 Points
+        else {
+            if (i % 2 == 0) {
+                let newPoint = {
+                    x: vectorArr[vectorArr.length - 1].x,
+                    y: round(random(vectorArr[vectorArr.length - 1].y - 50, vectorArr[vectorArr.length - 1].y - 100)),
+                }
+
+                vectorArr.push(newPoint);
+            }
+            else {
+                let newPoint = {
+                    x: round(random(vectorArr[vectorArr.length - 1].x - 50, vectorArr[vectorArr.length - 1].x + 150)),
+                    y: vectorArr[vectorArr.length - 1].y,
+                }
+
+                vectorArr.push(newPoint);
+            }
+        }
+    }
+
 };
 
 function draw() {
-    // image(video, 0, 0);
     background(bgColor);
-
 
     for (let hand of predictions) {
         const x1 = hand.boundingBox.topLeft[0];
@@ -104,6 +192,55 @@ function draw() {
         canvasWidth = window.innerWidth;
         canvasHeight = window.innerHeight;
     })
+
+    noStroke();
+    stroke(11, 11, 125);
+    noFill();
+    ellipse(ballX, ballY, 10, 10);
+
+    for (let i = 0; i < vectorArr.length; i++) {
+        if (ballY + 5 == vectorArr[i].y) {
+            if (ballX < vectorArr[i].x && ballX > vectorArr[i + 1].x) {
+                vDirection = 'up';
+            }
+        }
+        else if (ballY - 5 == vectorArr[i].y) {
+            if (ballX < vectorArr[i].x && ballX > vectorArr[i - 1].x) {
+                vDirection = 'down';
+            }
+        }
+    }
+
+    for (let i = 0; i < vectorArr.length; i++) {
+        if (ballX - 5 == vectorArr[i].x) {
+            if (vectorArr[i + 1] != undefined) {
+                if (ballY < vectorArr[i].y && ballY > vectorArr[i + 1].y) {
+                    hDirection = 'right';
+                }
+            }
+            else {
+                hDirection = 'right'
+            }
+        }
+        if (ballX + 5 == vectorArr[i].x) {
+            if (ballY < vectorArr[i].y && ballY > vectorArr[i - 1].y) {
+                hDirection = 'left';
+            }
+        }
+    }
+
+    if (vDirection == "down") {
+        ballY = ballY + 1;
+    }
+    else if (vDirection == "up") {
+        ballY = ballY - 1;
+    }
+    if (hDirection == "left") {
+        ballX = ballX - 1;
+    }
+    else if (hDirection == "right") {
+        ballX = ballX + 1;
+    }
 };
 
 function generateParticles(x, y) {
