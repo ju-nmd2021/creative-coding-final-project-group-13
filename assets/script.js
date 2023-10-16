@@ -94,14 +94,8 @@ function draw() {
             particle.update();
             particle.draw();
 
-        //     if (particle.isDead()) {
-        //         particles.splice(particles.indexOf(particle), 1);
-        //     }
-        // }
-
-        window.addEventListener("keyup", (e) => {
-            if (e.key == 'h') {
-                console.log("X Dist = " + (XOfIndex - XOfThumb) + ", Y Dist = " + (YOfThumb - YOfIndex));
+            if (particle.isDead()) {
+                particles.splice(particles.indexOf(particle), 1);
             }
         }
     }
@@ -113,12 +107,12 @@ function draw() {
 };
 
 function generateParticles(x, y) {
-    for (let i = 0; i < 400; i++) {
+    // for (let i = 0; i < 400; i++) {
     const px = x
     const py = y
     const particle = new Particle(px, py);
     particles.push(particle);
-    }
+    // }
 }
 
 let particles = [];

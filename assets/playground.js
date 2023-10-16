@@ -95,20 +95,20 @@ function draw() {
     background(bgColor);
 
     stroke(0, 0, 0);
-    line(vectorArr[0].x, vectorArr[0].y, vectorArr[1].x, vectorArr[1].y);
+    // line(vectorArr[0].x, vectorArr[0].y, vectorArr[1].x, vectorArr[1].y);
 
-    for (let i = 0; i < vectorArr.length - 1; i++) {
+    // for (let i = 0; i < vectorArr.length - 1; i++) {
 
-        // FOR DEBUGGING 
-        // if (i >= 2) {
-        //     noStroke()
-        //     text("p" + (i - 2), vectorArr[i].x + 10, vectorArr[i].y - 10)
-        // }
+    //     // FOR DEBUGGING 
+    //     // if (i >= 2) {
+    //     //     noStroke()
+    //     //     text("p" + (i - 2), vectorArr[i].x + 10, vectorArr[i].y - 10)
+    //     // }
 
-        stroke(0, 0, 0);
-        line(vectorArr[i].x, vectorArr[i].y, vectorArr[i + 1].x, vectorArr[i + 1].y)
-    }
-    line(vectorArr[vectorArr.length - 1].x, vectorArr[vectorArr.length - 1].y, vectorArr[0].x, vectorArr[0].y)
+    //     stroke(0, 0, 0);
+    //     line(vectorArr[i].x, vectorArr[i].y, vectorArr[i + 1].x, vectorArr[i + 1].y)
+    // }
+    // line(vectorArr[vectorArr.length - 1].x, vectorArr[vectorArr.length - 1].y, vectorArr[0].x, vectorArr[0].y)
 
     noStroke();
     fill(255, 0, 0);
@@ -129,8 +129,13 @@ function draw() {
 
     for (let i = 0; i < vectorArr.length; i++) {
         if (ballX - 5 == vectorArr[i].x) {
-            if (ballY < vectorArr[i].y && ballY > vectorArr[i + 1].y) {
-                hDirection = 'right';
+            if (vectorArr[i + 1] != undefined) {
+                if (ballY < vectorArr[i].y && ballY > vectorArr[i + 1].y) {
+                    hDirection = 'right';
+                }
+            }
+            else {
+                hDirection = 'right'
             }
         }
         if (ballX + 5 == vectorArr[i].x) {
