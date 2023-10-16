@@ -7,12 +7,14 @@ let vDirection;
 
 let chorus;
 let synth;
+let reverb;
 
 let notes = ["A", "B", "C", "D", "E", "F", "G"];
 
 window.addEventListener("load", () => {
     chorus = new Tone.Chorus(6, 2, 0.5).toDestination().start();
-    synth = new Tone.PolySynth().connect(chorus);
+    reverb = new Tone.Reverb(8.0).connect(chorus);
+    synth = new Tone.PolySynth().connect(reverb);
     synth.set({
         oscillator: {
             type: 'triangle'
@@ -117,21 +119,21 @@ function setup() {
 function draw() {
     background(bgColor);
 
-    stroke(0, 0, 0);
-    line(vectorArr[0].x, vectorArr[0].y, vectorArr[1].x, vectorArr[1].y);
+    // stroke(0, 0, 0);
+    // line(vectorArr[0].x, vectorArr[0].y, vectorArr[1].x, vectorArr[1].y);
 
-    for (let i = 0; i < vectorArr.length - 1; i++) {
+    // for (let i = 0; i < vectorArr.length - 1; i++) {
 
-        // FOR DEBUGGING 
-        // if (i >= 2) {
-        //     noStroke()
-        //     text("p" + (i - 2), vectorArr[i].x + 10, vectorArr[i].y - 10)
-        // }
+    //     // FOR DEBUGGING 
+    //     // if (i >= 2) {
+    //     //     noStroke()
+    //     //     text("p" + (i - 2), vectorArr[i].x + 10, vectorArr[i].y - 10)
+    //     // }
 
-        stroke(0, 0, 0);
-        line(vectorArr[i].x, vectorArr[i].y, vectorArr[i + 1].x, vectorArr[i + 1].y)
-    }
-    line(vectorArr[vectorArr.length - 1].x, vectorArr[vectorArr.length - 1].y, vectorArr[0].x, vectorArr[0].y)
+    //     stroke(0, 0, 0);
+    //     line(vectorArr[i].x, vectorArr[i].y, vectorArr[i + 1].x, vectorArr[i + 1].y)
+    // }
+    // line(vectorArr[vectorArr.length - 1].x, vectorArr[vectorArr.length - 1].y, vectorArr[0].x, vectorArr[0].y)
 
     noStroke();
     fill(255, 0, 0);
@@ -141,13 +143,13 @@ function draw() {
         if (ballY + 5 == vectorArr[i].y) {
             if (ballX < vectorArr[i].x && ballX > vectorArr[i + 1].x) {
                 vDirection = 'up';
-                synth.triggerAttackRelease([notes[Math.round(random(0, 6))] + "4", "G3"], "4n");
+                synth.triggerAttackRelease([notes[Math.round(random(0, 6))] + "4", notes[Math.round(random(0, 6))] + "3"], "4n");
             }
         }
         else if (ballY - 5 == vectorArr[i].y) {
             if (ballX < vectorArr[i].x && ballX > vectorArr[i - 1].x) {
                 vDirection = 'down';
-                synth.triggerAttackRelease([notes[Math.round(random(0, 6))] + "4", "G3"], "4n");
+                synth.triggerAttackRelease([notes[Math.round(random(0, 6))] + "4", notes[Math.round(random(0, 6))] + "3"], "4n");
             }
         }
     }
@@ -157,18 +159,18 @@ function draw() {
             if (vectorArr[i + 1] != undefined) {
                 if (ballY < vectorArr[i].y && ballY > vectorArr[i + 1].y) {
                     hDirection = 'right';
-                    synth.triggerAttackRelease([notes[Math.round(random(0, 6))] + "4", "G3"], "4n");
+                    synth.triggerAttackRelease([notes[Math.round(random(0, 6))] + "4", notes[Math.round(random(0, 6))] + "3"], "4n");
                 }
             }
             else {
                 hDirection = 'right'
-                synth.triggerAttackRelease([notes[Math.round(random(0, 6))] + "4", "G3"], "4n");
+                synth.triggerAttackRelease([notes[Math.round(random(0, 6))] + "4", notes[Math.round(random(0, 6))] + "3"], "4n");
             }
         }
         if (ballX + 5 == vectorArr[i].x) {
             if (ballY < vectorArr[i].y && ballY > vectorArr[i - 1].y) {
                 hDirection = 'left';
-                synth.triggerAttackRelease([notes[Math.round(random(0, 6))] + "4", "G3"], "4n");
+                synth.triggerAttackRelease([notes[Math.round(random(0, 6))] + "4", notes[Math.round(random(0, 6))] + "3"], "4n");
             }
         }
     }
