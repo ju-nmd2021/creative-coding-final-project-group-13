@@ -24,9 +24,13 @@ h3,
 h4,
 h5,
 h6 {
-    margin: auto;
-    font-weight: 600;
-    mix-blend-mode: difference;
+    font-weight: 300;
+    color: #fff;
+    font-family: "Courier New", Courier, monospace;
+    font-size: 15px;
+    position: absolute;
+    top: 20px;
+    left: 20px;
 }
 
 #name {
@@ -72,6 +76,19 @@ a,
 a:visited {
     color: white;
     mix-blend-mode: difference;
+}
+
+p {
+    font-weight: 300;
+    color: #fff;
+    font-family: "Courier New", Courier, monospace;
+    font-size: 12px;
+    position: absolute;
+    bottom: 20px;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    width: fit-content;
 }
 
 canvas {

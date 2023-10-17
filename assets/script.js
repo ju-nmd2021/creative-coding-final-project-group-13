@@ -295,11 +295,11 @@ function gesture_Pinch() {
         pinchSynth.triggerAttackRelease(notes[Math.ceil((YOfIndex) / 100)] + "4", "4n");
 
         if (XOfIndex > ballX) {
-            membraneSynth.volume.value = Math.round((ballX - XOfIndex) / 10 + 5);
+            membraneSynth.volume.value = Math.round((ballX - XOfIndex) / 10 + 2);
         }
 
         else {
-            membraneSynth.volume.value = Math.round((XOfIndex - ballX) / 10 + 5);
+            membraneSynth.volume.value = Math.round((XOfIndex - ballX) / 10 + 2);
         }
     }
 }
