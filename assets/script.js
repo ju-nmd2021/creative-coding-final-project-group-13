@@ -20,6 +20,8 @@ let oscillator;
 
 let pinchSynth;
 
+let membraneSynth;
+
 let bounceSynth;
 let bounceReverb;
 let bounceChorus;
@@ -47,6 +49,9 @@ window.addEventListener("load", () => {
         sustain: 0.5,
         release: 0.8
     })
+
+    membraneSynth = new Tone.MembraneSynth().toDestination();
+    membraneSynth.volume.value = -100;
 })
 
 class Particle {
@@ -217,7 +222,7 @@ function draw() {
     })
 
     noStroke();
-    stroke(11, 11, 125);
+    stroke(125, 11, 11);
     noFill();
     ellipse(ballX, ballY, 10, 10);
 
@@ -288,12 +293,24 @@ function gesture_Pinch() {
         generateParticles(XOfIndex, YOfIndex);
 
         pinchSynth.triggerAttackRelease(notes[Math.ceil((YOfIndex) / 100)] + "4", "4n");
+
+        if (XOfIndex > ballX) {
+            membraneSynth.volume.value = Math.round((ballX - XOfIndex) / 10 + 5);
+        }
+
+        else {
+            membraneSynth.volume.value = Math.round((XOfIndex - ballX) / 10 + 5);
+        }
     }
 }
 
 function modelLoaded() {
     console.log("Model Loaded!");
 }
+
+setInterval(() => {
+    membraneSynth.triggerAttackRelease("C2", "8n");
+}, 1000);
 
 window.addEventListener("click", () => {
     Tone.start();

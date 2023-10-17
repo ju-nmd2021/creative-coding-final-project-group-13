@@ -28,7 +28,7 @@ window.addEventListener("load", () => {
     })
 
     membraneSynth = new Tone.MembraneSynth().toDestination();
-    membraneSynth.volume.value = -10;
+    membraneSynth.volume.value = -100;
 
 });
 
