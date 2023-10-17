@@ -9,6 +9,8 @@ let chorus;
 let synth;
 let reverb;
 
+let membraneSynth;
+
 let notes = ["A", "B", "C", "D", "E", "F", "G"];
 
 window.addEventListener("load", () => {
@@ -24,6 +26,10 @@ window.addEventListener("load", () => {
         sustain: 0.5,
         release: 0.8
     })
+
+    membraneSynth = new Tone.MembraneSynth().toDestination();
+    membraneSynth.volume.value = -10;
+
 });
 
 function randomNote() {
@@ -188,6 +194,12 @@ function draw() {
         ballX = ballX + 1;
     }
 }
+
+setInterval(() => {
+    console.log("test");
+    // synth.triggerAttackRelease([notes[Math.round(random(0, 6))] + "4", notes[Math.round(random(0, 6))] + "3"], "4n");
+    membraneSynth.triggerAttackRelease("C2", "8n");
+}, 1000);
 
 window.addEventListener("click", () => {
     Tone.start();
