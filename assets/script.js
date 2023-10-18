@@ -292,14 +292,15 @@ function gesture_Pinch() {
         fill(0, 0, 255);
         generateParticles(XOfIndex, YOfIndex);
 
-        pinchSynth.triggerAttackRelease(notes[Math.ceil((YOfIndex) / 100)] + "4", "4n");
+        pinchSynth.triggerAttackRelease(notes[Math.ceil((YOfIndex) / 100)] + Math.ceil((XOfIndex) / 200), "4n");
+        console.log(Math.ceil((XOfIndex) / 100));
 
         if (XOfIndex > ballX) {
             membraneSynth.volume.value = Math.round((ballX - XOfIndex) / 10 + 2);
         }
 
         else {
-            membraneSynth.volume.value = Math.round((XOfIndex - ballX) / 10 + 2);
+            membraneSynth.volume.value = Math.round((XOfIndex - ballX) / + 2);
         }
     }
 }
